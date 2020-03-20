@@ -1,10 +1,10 @@
 package main
 
 import (
+	"./models"
+	_ "./routers"
 	"encoding/json"
 	"fmt"
-	"github.com/Herts/ray-ui-cli/models"
-	_ "github.com/Herts/ray-ui-cli/routers"
 	"github.com/astaxie/beego"
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"

@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/Herts/ray-ui-cli/controllers"
+	"../controllers"
 	"github.com/astaxie/beego"
 )
 

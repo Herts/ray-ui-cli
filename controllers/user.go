@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"../models"
 	"encoding/json"
 	"fmt"
-	"github.com/Herts/ray-ui-cli/models"
 	"github.com/astaxie/beego"
 )
 
