@@ -9,13 +9,17 @@ type SystemController struct {
 	beego.Controller
 }
 
-func (c *SystemController) RestartV2ray() (out string, err error) {
+func (c *SystemController) RestartV2ray() {
 	output, err := exec.Command("systemctl", "restart", "v2ray").Output()
 	if err != nil {
+		c.Data["json"] = response{
+			Message: err.Error(),
+		}
 		return
 	}
-	out = string(output)
-	return
+	c.Data["json"] = response{
+		Message: string(output),
+	}
 }
 
 func (c *SystemController) NginxReload() {
