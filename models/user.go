@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/jinzhu/gorm"
 	"log"
 	"time"
@@ -47,7 +48,13 @@ func InitDB() {
 		log.Println(err)
 	}
 	db.LogMode(true)
-	//db.AutoMigrate(&User{})
+	dbInit, err := beego.AppConfig.Bool("dbinit")
+	if err != nil {
+		dbInit = false
+	}
+	if !dbInit {
+		db.AutoMigrate(&User{})
+	}
 }
 
 func AddUser(user *User) {
