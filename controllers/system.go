@@ -1,15 +1,27 @@
 package controllers
 
-import "os/exec"
+import (
+	"github.com/astaxie/beego"
+	"os/exec"
+)
 
-func RestartV2ray() {
-	exec.Command("systemctl", "restart", "v2ray")
+type SystemController struct {
+	beego.Controller
 }
 
-func NginxReload() {
+func (c *SystemController) RestartV2ray() (out string, err error) {
+	output, err := exec.Command("systemctl", "restart", "v2ray").Output()
+	if err != nil {
+		return
+	}
+	out = string(output)
+	return
+}
+
+func (c *SystemController) NginxReload() {
 	exec.Command("nginx", "-s reload")
 }
 
-func QueryStats() {
-	exec.Command("v2ctl",)
+func (c *SystemController) QueryStats() {
+	exec.Command("v2ctl")
 }

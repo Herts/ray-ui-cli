@@ -10,8 +10,8 @@ import (
 var db *gorm.DB
 
 type User struct {
-	gorm.Model
-	Email        string  `gorm:"primary_key",json:"email"`
+	gorm.Model   `json:"-"`
+	Email        string  `gorm:"primary_key" json:"email"`
 	UserId       string  `json:"userId"`
 	Enabled      bool    `json:"enabled"`
 	DataConsumed float64 `json:"dataConsumed"`
@@ -47,7 +47,11 @@ func InitDB() {
 	if err != nil {
 		log.Println(err)
 	}
-	db.LogMode(true)
+	dbDebug, err := beego.AppConfig.Bool("dbdebug")
+	if err != nil {
+		dbDebug = false
+	}
+	db.LogMode(dbDebug)
 	dbInit, err := beego.AppConfig.Bool("dbinit")
 	if err != nil {
 		dbInit = false
