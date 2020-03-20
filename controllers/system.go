@@ -3,8 +3,8 @@ package controllers
 import (
 	"../models"
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego"
-	"golang.org/x/tools/go/ssa/interp/testdata/src/fmt"
 	"log"
 	"os/exec"
 	"strings"
