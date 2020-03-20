@@ -72,8 +72,9 @@ func (c *SystemController) GetRawStats() {
 
 func GetStatistics() (data []*DataConsumed, err error) {
 	_v2ctl := "/usr/bin/v2ray/v2ctl"
-	output, err := exec.Command(_v2ctl, "api", "--server=127.0.0.1:8144", "StatsService.QueryStats ''").Output()
-
+	cmd := exec.Command(_v2ctl, "api --server=127.0.0.1:8144 StatsService.QueryStats ''")
+	log.Println(cmd.String())
+	output, err := cmd.Output()
 	if err != nil {
 		log.Println(err)
 		return
