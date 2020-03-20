@@ -15,11 +15,13 @@ func (c *SystemController) RestartV2ray() {
 		c.Data["json"] = response{
 			Message: err.Error(),
 		}
+		c.ServeJSON()
 		return
 	}
 	c.Data["json"] = response{
 		Message: string(output),
 	}
+	c.ServeJSON()
 }
 
 func (c *SystemController) NginxReload() {
