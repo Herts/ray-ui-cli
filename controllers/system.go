@@ -16,7 +16,7 @@ type SystemController struct {
 
 type DataConsumed struct {
 	Name  string `json:"name"`
-	Value string `json:"value"`
+	Value int64 `json:"value"`
 }
 
 func (c *SystemController) RestartV2ray() {
@@ -88,7 +88,7 @@ func GetStatistics() (data []*DataConsumed, err error) {
 	stats = fmt.Sprint("[", stats[:len(stats)-3], "]")
 	log.Println(stats)
 
-	err = json.Unmarshal([]byte(stats), data)
+	err = json.Unmarshal([]byte(stats), &data)
 	if err != nil {
 		log.Println(err)
 	}
