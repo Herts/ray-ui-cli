@@ -16,7 +16,7 @@ type SystemController struct {
 
 type DataConsumed struct {
 	Name  string `json:"name"`
-	Value int64 `json:"value"`
+	Value int64  `json:"value"`
 }
 
 func (c *SystemController) RestartV2ray() {
@@ -39,7 +39,7 @@ func (c *SystemController) ExecuteCmd(command ...string) {
 }
 
 func (c *SystemController) NginxReload() {
-	c.ExecuteCmd("nginx", "-s reload")
+	c.ExecuteCmd("nginx", "-s", "reload")
 }
 
 func (c *SystemController) QueryStats() {
@@ -47,7 +47,13 @@ func (c *SystemController) QueryStats() {
 }
 
 func (c *SystemController) ReGenConfig() {
-	config := models.ReloadConfig()
+	config, err := models.ReloadConfig()
+	if err != nil {
+		c.Data["json"] = response{Message: err.Error()}
+		c.ServeJSON()
+		return
+	}
+
 	c.Data["json"] = response{Data: config}
 	c.ServeJSON()
 }
@@ -55,7 +61,7 @@ func (c *SystemController) ReGenConfig() {
 func (c *SystemController) CertbotGetCert() {
 	email := "lhz007563@gmail.com"
 	domainName := "test.222422.xyz"
-	c.ExecuteCmd("sudo", "certbot", "--nginx", "-m", email, "--agree-tos --no-eff-email", "-d",
+	c.ExecuteCmd("sudo", "certbot", "--nginx", "-m", email, "--agree-tos", "--no-eff-email", "-d",
 		domainName, "--no-redirect")
 }
 
@@ -72,7 +78,7 @@ func (c *SystemController) GetRawStats() {
 
 func GetStatistics() (data []*DataConsumed, err error) {
 	_v2ctl := "/usr/bin/v2ray/v2ctl"
-	cmd := exec.Command(_v2ctl, "api", "--server", "127.0.0.1:8144","StatsService.QueryStats", "pattern: \"\"")
+	cmd := exec.Command(_v2ctl, "api", "--server", "127.0.0.1:8144", "StatsService.QueryStats", "pattern: \"\"")
 	log.Println(cmd.String())
 	output, err := cmd.CombinedOutput()
 	if err != nil {

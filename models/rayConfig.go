@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"github.com/pkg/errors"
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -94,16 +95,16 @@ type Routing struct {
 	Rules []Rules `json:"rules"`
 }
 
-func ReloadConfig() *RayConfig {
+func ReloadConfig() (*RayConfig, error) {
 	configFile := beego.AppConfig.String("v2rayconfig")
 	//configFile := "tests/config.json"
 	if len(configFile) == 0 {
 		log.Println(errors.New("config not found"))
 	}
-	f, err := os.Open(configFile)
+	f, err := os.OpenFile(configFile, os.O_RDWR, 0666)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return nil, err
 	}
 	var config RayConfig
 	err = json.NewDecoder(f).Decode(&config)
@@ -130,6 +131,11 @@ func ReloadConfig() *RayConfig {
 
 	jsonConfig, err := json.Marshal(config)
 	log.Println(string(jsonConfig))
-	return &config
+	err = ioutil.WriteFile(configFile, jsonConfig, 0666)
+	if err != nil {
+		log.Println(err)
+		return &config, err
+	}
+	return &config, nil
 
 }
