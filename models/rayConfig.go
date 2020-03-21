@@ -88,6 +88,7 @@ type Outbounds struct {
 type Rules struct {
 	Type        string   `json:"type"`
 	IP          []string `json:"ip,omitempty"`
+	InboundTag  []string `json:"inboundTag,omitempty"`
 	OutboundTag string   `json:"outboundTag"`
 }
 
@@ -129,7 +130,7 @@ func ReloadConfig() (*RayConfig, error) {
 
 	config.Inbounds[0].Settings = vmess
 
-	jsonConfig, err := json.Marshal(config)
+	jsonConfig, err := json.MarshalIndent(config, "", "\t")
 	log.Println(string(jsonConfig))
 	err = ioutil.WriteFile(configFile, jsonConfig, 0666)
 	if err != nil {
