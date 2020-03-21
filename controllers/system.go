@@ -72,19 +72,21 @@ func (c *SystemController) GetRawStats() {
 
 func GetStatistics() (data []*DataConsumed, err error) {
 	_v2ctl := "/usr/bin/v2ray/v2ctl"
-	cmd := exec.Command(_v2ctl, "api --server=127.0.0.1:8144 StatsService.QueryStats ''")
+	cmd := exec.Command(_v2ctl, "api", "--server", "127.0.0.1:8144","StatsService.QueryStats", "pattern: \"\"")
 	log.Println(cmd.String())
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Println(err)
+		log.Println(err, string(output))
 		return
 	}
 
-	stats := strings.ReplaceAll(string(output), "\n>", "\n}")
+	stats := strings.ReplaceAll(string(output), "\n>", "\n},")
+	log.Println(stats)
 	stats = strings.ReplaceAll(stats, "stat: <", "{")
 	stats = strings.ReplaceAll(stats, "value", ",\"value\"")
 	stats = strings.ReplaceAll(stats, "name", "\"name\"")
-	stats = fmt.Sprint("[", stats[:len(stats)-1], "]")
+	stats = fmt.Sprint("[", stats[:len(stats)-3], "]")
+	log.Println(stats)
 
 	err = json.Unmarshal([]byte(stats), data)
 	if err != nil {
