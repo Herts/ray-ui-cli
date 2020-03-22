@@ -45,8 +45,8 @@ type UserServer struct {
 
 type UserData struct {
 	gorm.Model       `json:"-"`
-	Email            string    `gorm:"primary_key"`
-	Date             time.Time `gorm:"type:date;primary_key"`
+	Email            string `gorm:"primary_key"`
+	Date             string `gorm:"type:date;primary_key"`
 	UpDataConsumed   int64
 	DownDataConsumed int64
 }
@@ -100,7 +100,7 @@ func GetAllUser() (users []*User) {
 	return
 }
 
-func GetUserDataOneDay(email string, day time.Time) *UserData {
+func GetUserDataOneDay(email string, day string) *UserData {
 	var ud UserData
 	db.FirstOrInit(&ud, UserData{Email: email, Date: day})
 	return &ud
@@ -121,7 +121,7 @@ func UpdateDataConsumed() (emails []string) {
 			info := strings.Split(stat.Name, ">>>")
 			email := info[1]
 			emails = append(emails, email)
-			ud := GetUserDataOneDay(email, time.Now())
+			ud := GetUserDataOneDay(email, time.Now().Format("2006-01-02"))
 			if strings.HasSuffix(stat.Name, "uplink") {
 				ud.UpDataConsumed += stat.Value
 			} else {
