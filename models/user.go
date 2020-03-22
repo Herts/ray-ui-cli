@@ -101,7 +101,7 @@ func GetAllUser() (users []*User) {
 }
 
 func GetUserDataOneDay(email string, day time.Time) (ud *UserData) {
-	db.Where(UserData{Email: email, Date: day}).First(&ud)
+	db.FirstOrInit(&ud, UserData{Email: email, Date: day})
 	return
 }
 
