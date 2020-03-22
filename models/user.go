@@ -100,9 +100,10 @@ func GetAllUser() (users []*User) {
 	return
 }
 
-func GetUserDataOneDay(email string, day time.Time) (ud *UserData) {
+func GetUserDataOneDay(email string, day time.Time) *UserData {
+	var ud UserData
 	db.FirstOrInit(&ud, UserData{Email: email, Date: day})
-	return
+	return &ud
 }
 
 func SaveUserData(ud *UserData) {
