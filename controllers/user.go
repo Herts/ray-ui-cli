@@ -87,3 +87,14 @@ func (c *UserController) ListAllUsers() {
 	c.Data["json"] = response{Data: users}
 	c.ServeJSON()
 }
+
+func (c *UserController) ListAllDataConsumed() {
+	c.Data["json"] = response{Message: "success", Data: models.GetAllDataConsumed()}
+	c.ServeJSON()
+}
+
+func (c *UserController) UpdateDataConsumed() {
+	emails := models.UpdateDataConsumed()
+	c.Data["json"] = response{Message: "success", Data: emails}
+	c.ServeJSON()
+}

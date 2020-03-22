@@ -1,9 +1,11 @@
 package models
 
 import (
+	"../myutils"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/jinzhu/gorm"
-	"log"
+	"strings"
 	"time"
 )
 
@@ -41,11 +43,19 @@ type UserServer struct {
 	Index    int    `gorm:"primary_key;auto_increment:false"`
 }
 
+type UserData struct {
+	gorm.Model
+	Email            string    `gorm:"primary_key"`
+	Date             time.Time `gorm:"date,primary_key"`
+	UpDataConsumed   int64
+	DownDataConsumed int64
+}
+
 func InitDB() {
 	var err error
 	db, err = gorm.Open("sqlite3", "local.db")
 	if err != nil {
-		log.Println(err)
+		logs.Error(err)
 	}
 	dbDebug, err := beego.AppConfig.Bool("dbdebug")
 	if err != nil {
@@ -58,6 +68,7 @@ func InitDB() {
 	}
 	if !dbInit {
 		db.AutoMigrate(&User{})
+		db.AutoMigrate(&UserData{})
 	}
 }
 
@@ -86,5 +97,42 @@ func UpdateUser(user *User) {
 
 func GetAllUser() (users []*User) {
 	db.Find(&users)
+	return
+}
+
+func GetUserDataOneDay(email string, day time.Time) (ud *UserData) {
+	db.Where(UserData{Email: email, Date: day}).First(&ud)
+	return
+}
+
+func SaveUserData(ud *UserData) {
+	db.Save(ud)
+}
+
+func UpdateDataConsumed() (emails []string) {
+	stats, err := myutils.GetStatistics(true)
+	if err != nil {
+		logs.Error(err)
+		return
+	}
+	for _, stat := range stats {
+		if strings.HasPrefix(stat.Name, "user") {
+			info := strings.Split(stat.Name, ">>>")
+			email := info[1]
+			emails = append(emails, email)
+			ud := GetUserDataOneDay(email, time.Now())
+			if strings.HasSuffix(stat.Name, "uplink") {
+				ud.UpDataConsumed += stat.Value
+			} else {
+				ud.DownDataConsumed += stat.Value
+			}
+			SaveUserData(ud)
+		}
+	}
+	return
+}
+
+func GetAllDataConsumed() (uds []*UserData) {
+	db.Find(&uds)
 	return
 }
