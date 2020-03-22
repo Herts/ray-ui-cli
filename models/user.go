@@ -37,16 +37,16 @@ type RemoteServer struct {
 }
 
 type UserServer struct {
-	gorm.Model
-	NickName string `gorm:"primary_key"`
-	Region   string `gorm:"primary_key"`
-	Index    int    `gorm:"primary_key;auto_increment:false"`
+	gorm.Model `json:"-"`
+	NickName   string `gorm:"primary_key"`
+	Region     string `gorm:"primary_key"`
+	Index      int    `gorm:"primary_key;auto_increment:false"`
 }
 
 type UserData struct {
-	gorm.Model
+	gorm.Model       `json:"-"`
 	Email            string    `gorm:"primary_key"`
-	Date             time.Time `gorm:"date,primary_key"`
+	Date             time.Time `gorm:"type:date;primary_key"`
 	UpDataConsumed   int64
 	DownDataConsumed int64
 }
