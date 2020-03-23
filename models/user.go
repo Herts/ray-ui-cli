@@ -46,7 +46,7 @@ type UserServer struct {
 type UserData struct {
 	gorm.Model       `json:"-"`
 	Email            string `gorm:"primary_key"`
-	Date             string `gorm:"type:date;primary_key"`
+	Date             string `gorm:"primary_key"`
 	UpDataConsumed   int64
 	DownDataConsumed int64
 }
