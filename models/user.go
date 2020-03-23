@@ -45,10 +45,10 @@ type UserServer struct {
 
 type UserData struct {
 	gorm.Model       `json:"-"`
-	Email            string `gorm:"primary_key"`
-	Date             string `gorm:"primary_key"`
-	UpDataConsumed   int64
-	DownDataConsumed int64
+	Email            string `gorm:"primary_key" json:"email"`
+	Date             string `gorm:"primary_key" json:"date"`
+	UpDataConsumed   int64  `json:"upDataConsumed"`
+	DownDataConsumed int64  `json:"downDataConsumed"`
 }
 
 func InitDB() {

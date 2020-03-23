@@ -3,54 +3,24 @@ package main
 import (
 	"./models"
 	_ "./routers"
-	"encoding/json"
-	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/google/uuid"
-	"github.com/jinzhu/gorm"
+	"github.com/jasonlvhit/gocron"
 	_ "github.com/mattn/go-sqlite3"
-	"log"
-	"os"
 )
 
 func init() {
 
 }
 
+func timelyTask() {
+	interval := beego.AppConfig.DefaultInt64("dataupdateinterval", 10)
+
+	gocron.Every(uint64(interval)).Minutes().From(gocron.NextTick()).Do(models.UpdateDataConsumed)
+	gocron.Start()
+}
+
 func main() {
+	timelyTask()
 	models.InitDB()
 	beego.Run()
-}
-
-func dbtest1() {
-	db, err := gorm.Open("sqlite3", "local.db")
-	if err != nil {
-		log.Println(err)
-	}
-	db.LogMode(true)
-	db.AutoMigrate(&models.User{})
-
-	user := models.User{
-		Email:        "lhz007563@gmail.com",
-		UserId:       uuid.New().String(),
-		Enabled:      true,
-		DataConsumed: 0,
-	}
-	db.Save(&user)
-}
-
-func test1() {
-	var configObj models.RayConfig
-	config, err := os.Open("tests/config.json")
-	if err != nil {
-		log.Println(err)
-	}
-	err = json.NewDecoder(config).Decode(&configObj)
-	if err != nil {
-		log.Println(err)
-	}
-	fmt.Println(configObj)
-
-	jsonObj, err := json.Marshal(configObj)
-	fmt.Println(string(jsonObj))
 }

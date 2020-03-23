@@ -12,6 +12,7 @@ type SystemController struct {
 }
 
 func (c *SystemController) RestartV2ray() {
+	models.UpdateDataConsumed()
 	c.ExecuteCmd("sudo", "systemctl", "restart", "v2ray")
 }
 
