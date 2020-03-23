@@ -28,7 +28,7 @@ func (c *SystemController) ExecuteCmd(command ...string) {
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		c.Data["json"] = response{
-			Message: fmt.Sprint(output, err.Error()),
+			Message: fmt.Sprint(string(output), err.Error()),
 		}
 		c.ServeJSON()
 		return
