@@ -105,5 +105,6 @@ func (c *UserController) GetUserDataPage() {
 		d.DownDataConsumed /= 10e6
 	}
 	c.Data["data"] = data
+	c.Layout = "layout.html"
 	c.TplName = "userdata.html"
 }

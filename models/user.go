@@ -29,10 +29,10 @@ type RemoteServer struct {
 	Mask       string `json:"mask"`
 	Host       string
 	TLSName    string
-	Port       int `json:"port"`
+	Port       int `json:"port,string"`
 	Provider   string
 	Price      float64
-	RayPort    int    `json:"rayPort"`
+	RayPort    int    `json:"rayPort,string"`
 	Region     string `gorm:"primary_key"`
 	Index      int    `gorm:"primary_key;auto_increment:false"`
 	ExpiresOn  time.Time

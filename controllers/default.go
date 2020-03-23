@@ -13,3 +13,8 @@ func (c *MainController) Get() {
 	c.Data["Email"] = "astaxie@gmail.com"
 	c.TplName = "index.tpl"
 }
+
+func (c *MainController) Login() {
+	c.Layout = "layout.html"
+	c.TplName = "login.html"
+}

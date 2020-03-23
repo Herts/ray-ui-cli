@@ -7,6 +7,8 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
+	beego.Router("/html/login", &controllers.MainController{}, "get:Login")
+
 	beego.Router("/api/user/add", &controllers.UserController{}, "post:CreateUser")
 	beego.Router("/api/user/update", &controllers.UserController{}, "put:UpdateUser")
 	beego.Router("/api/user/list", &controllers.UserController{}, "get:ListAllUsers")
@@ -14,6 +16,7 @@ func init() {
 	beego.Router("/api/user/updateData", &controllers.UserController{}, "get:UpdateDataConsumed")
 
 	beego.Router("/html/userdata", &controllers.UserController{}, "get:GetUserDataPage")
+	beego.Router("/html/system", &controllers.SystemController{}, "get:GetSystemPage")
 
 	beego.Router("/api/system/restartV2ray", &controllers.SystemController{}, "get:RestartV2ray")
 	beego.Router("/api/system/nginxReload", &controllers.SystemController{}, "get:NginxReload")
@@ -22,5 +25,4 @@ func init() {
 	beego.Router("/api/system/getRawStats", &controllers.SystemController{}, "get:GetRawStats")
 	beego.Router("/api/system/genNginxConfig", &controllers.SystemController{}, "post:GenNginxConfig")
 	beego.Router("/api/system/certbotGetCert", &controllers.SystemController{}, "post:CertbotGetCert")
-
 }

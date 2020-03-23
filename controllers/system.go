@@ -88,6 +88,8 @@ func (c *SystemController) GenNginxConfig() {
 	tpl, err := template.ParseFiles("conf/nginx.tpl")
 	if err != nil {
 		logs.Error(err)
+		c.Data["json"] = response{Message: err.Error()}
+		c.ServeJSON()
 		return
 	}
 	var server models.RemoteServer
@@ -95,6 +97,7 @@ func (c *SystemController) GenNginxConfig() {
 	if err != nil {
 		logs.Error(err)
 		c.Data["json"] = response{Message: err.Error()}
+		c.ServeJSON()
 		return
 	}
 	server.Port = 80
@@ -103,6 +106,9 @@ func (c *SystemController) GenNginxConfig() {
 	err = tpl.Execute(&buffer, server)
 	if err != nil {
 		logs.Error(err)
+		c.Data["json"] = response{Message: err.Error()}
+		c.ServeJSON()
+		return
 	}
 	config := buffer.Bytes()
 	nginxDir := beego.AppConfig.DefaultString("nginxdir", "/etc/nginx/site-enabled/")
@@ -110,9 +116,15 @@ func (c *SystemController) GenNginxConfig() {
 	if err != nil {
 		logs.Error(err)
 		c.Data["json"] = response{Message: err.Error()}
+		c.ServeJSON()
 		return
 	}
 
 	c.Data["json"] = response{Data: string(config)}
 	c.ServeJSON()
+}
+
+func (c *SystemController) GetSystemPage() {
+	c.TplName = "system.html"
+	c.Layout = "layout.html"
 }

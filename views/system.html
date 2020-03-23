@@ -1,0 +1,98 @@
+<div id="main">
+    <div class="header">
+        <h1>System Control</h1>
+        <h2>You can manage server name, v2ray, certbot here.</h2>
+    </div>
+
+    <div class="content">
+        <form id="nginxForm" class="pure-form pure-form-stacked">
+
+            <label for="serverName">Server Name</label>
+            <input id="serverName" name="serverName">
+
+            <label for="port">Port</label>
+            <input id="port" type="number" name="port">
+            <label for="mask">Mask</label>
+            <input id="mask" name="mask">
+
+            <label for="rayPort">V2ray Local Port</label>
+            <input id="rayPort" name="rayPort" placeholder="32516" value="32516">
+
+            <button id="nginxSubmit" type="button" class="pure-button pure-button-primary">Add Domain</button>
+        </form>
+        <div id="nginxFormResult"></div>
+        <hr>
+
+        <form id="certbotForm" class="pure-form pure-form-stacked">
+            <label for="certbotServerName">Server Name</label>
+            <input id="certbotServerName" name="serverName">
+
+            <label for="certbotEmail">Email</label>
+            <input id="certbotEmail" type="email" name="email">
+
+            <button id="certbotSubmit" type="button" class="pure-button pure-button-primary">Apply for Cert</button>
+        </form>
+        <div id="certbotFormResult"></div>
+
+        <hr>
+        <button id="restartV2ray" type="button" class="pure-button pure-button-primary">Restart V2ray</button>
+        <div id="restartV2rayResult"></div>
+        <hr>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // click on button submit
+        $("#nginxSubmit").on('click', function () {
+            // send ajax
+            $.ajax({
+                url: '/api/system/genNginxConfig', // url where to submit the request
+                type: "POST", // type of action POST || GET
+                dataType: 'json', // data type
+                data: $("#nginxForm").serializeJSON(), // post data || get data
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#nginxFormResult').html(result.message);
+                    $('#certbotServerName').val($('#serverName').val());
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+        $("#certbotSubmit").on('click', function () {
+            $.ajax({
+                url: '/api/system/certbotGetCert', // url where to submit the request
+                type: "POST", // type of action POST || GET
+                dataType: 'json', // data type
+                data: $("#certbotForm").serializeJSON(), // post data || get data
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#certbotFormResult').html(result.message);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+        $("#restartV2ray").on('click', function () {
+            $.ajax({
+                    url: '/api/system/restartV2ray', // url where to submit the request
+                    type: "GET", // type of action POST || GET
+                    success: function (result) {
+                        // you can see the result from the console
+                        // tab of the developer tools
+                        $('#restartV2rayResult').html(result.message);
+                    },
+                    error: function (xhr, resp, text) {
+                        console.log(xhr, resp, text);
+                    }
+                }
+            )
+        })
+    });
+
+</script>
