@@ -8,6 +8,20 @@
 <table>
     <thead>User Data</thead>
     <tbody>
+    <tr>
+        <th>
+            Email
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            UpDataConsumed
+        </th>
+        <th>
+            DownDataConsumed
+        </th>
+    </tr>
     {{range $d := .data}}
         <tr>
             <td>{{.Email}}</td>
