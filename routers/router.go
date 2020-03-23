@@ -19,4 +19,6 @@ func init() {
 	beego.Router("/api/system/regenV2ayConfig", &controllers.SystemController{}, "get:ReGenConfig")
 	beego.Router("/api/system/getRawStats", &controllers.SystemController{}, "get:GetRawStats")
 	beego.Router("/api/system/genNginxConfig", &controllers.SystemController{}, "post:GenNginxConfig")
+	beego.Router("/api/system/certbotGetCert", &controllers.SystemController{}, "get:CertbotGetCert")
+
 }
