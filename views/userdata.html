@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Data</title>
+</head>
+<body>
+<table>
+    <thead>User Data</thead>
+    <tbody>
+    {{range $d := .data}}
+        <tr>
+            <td>{{.Email}}</td>
+            <td>{{.Date}}</td>
+            <td>{{.UpDataConsumed}}</td>
+            <td>{{.DownDataConsumed}}</td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>
+</body>
+</html>

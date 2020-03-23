@@ -98,3 +98,7 @@ func (c *UserController) UpdateDataConsumed() {
 	c.Data["json"] = response{Message: "success", Data: emails}
 	c.ServeJSON()
 }
+func (c *UserController) GetUserDataPage() {
+	c.Data["data"] = models.GetAllDataConsumed()
+	c.TplName = "userdata.html"
+}
