@@ -99,6 +99,11 @@ func (c *UserController) UpdateDataConsumed() {
 	c.ServeJSON()
 }
 func (c *UserController) GetUserDataPage() {
-	c.Data["data"] = models.GetAllDataConsumed()
+	data := models.GetAllDataConsumed()
+	for _, d := range data {
+		d.UpDataConsumed /= 10e6
+		d.DownDataConsumed /= 10e6
+	}
+	c.Data["data"] = data
 	c.TplName = "userdata.html"
 }
