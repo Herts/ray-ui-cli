@@ -3,11 +3,17 @@ package routers
 import (
 	"../controllers"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/context"
+	"strings"
 )
 
 func init() {
+	beego.BConfig.WebConfig.Session.SessionProvider = "file"
+	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
+	beego.InsertFilter("/*", beego.BeforeRouter, InitFilter())
 	beego.Router("/", &controllers.MainController{})
-	beego.Router("/html/login", &controllers.MainController{}, "get:Login")
+	beego.Router("/html/login", &controllers.MainController{}, "get:LoginPage")
+	beego.Router("/html/login", &controllers.MainController{}, "post:Login")
 
 	beego.Router("/api/user/add", &controllers.UserController{}, "post:CreateUser")
 	beego.Router("/api/user/update", &controllers.UserController{}, "put:UpdateUser")
@@ -25,4 +31,17 @@ func init() {
 	beego.Router("/api/system/getRawStats", &controllers.SystemController{}, "get:GetRawStats")
 	beego.Router("/api/system/genNginxConfig", &controllers.SystemController{}, "post:GenNginxConfig")
 	beego.Router("/api/system/certbotGetCert", &controllers.SystemController{}, "post:CertbotGetCert")
+}
+
+func InitFilter() beego.FilterFunc {
+	return func(ctx *context.Context) {
+		if strings.HasPrefix(ctx.Input.URL(), "/html/login") {
+			return
+		}
+
+		_, ok := ctx.Input.Session("uid").(int)
+		if !ok {
+			ctx.Redirect(302, "/html/login")
+		}
+	}
 }
