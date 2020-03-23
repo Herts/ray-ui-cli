@@ -12,7 +12,8 @@ func init() {
 	beego.Router("/api/user/list", &controllers.UserController{}, "get:ListAllUsers")
 	beego.Router("/api/user/listData", &controllers.UserController{}, "get:ListAllDataConsumed")
 	beego.Router("/api/user/updateData", &controllers.UserController{}, "get:UpdateDataConsumed")
-	beego.Router("/userdata", &controllers.UserController{}, "get:GetUserDataPage")
+
+	beego.Router("/html/userdata", &controllers.UserController{}, "get:GetUserDataPage")
 
 	beego.Router("/api/system/restartV2ray", &controllers.SystemController{}, "get:RestartV2ray")
 	beego.Router("/api/system/nginxReload", &controllers.SystemController{}, "get:NginxReload")
