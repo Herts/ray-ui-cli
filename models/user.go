@@ -22,15 +22,17 @@ type User struct {
 }
 
 type RemoteServer struct {
-	gorm.Model
+	gorm.Model `json:"-"`
 	NickName   string
 	Address4   string
-	DomainName string
+	ServerName string `json:"serverName"`
+	Mask       string `json:"mask"`
 	Host       string
 	TLSName    string
-	Port       int
+	Port       int `json:"port"`
 	Provider   string
 	Price      float64
+	RayPort    int    `json:"rayPort"`
 	Region     string `gorm:"primary_key"`
 	Index      int    `gorm:"primary_key;auto_increment:false"`
 	ExpiresOn  time.Time

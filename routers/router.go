@@ -16,6 +16,7 @@ func init() {
 	beego.Router("/api/system/restartV2ray", &controllers.SystemController{}, "get:RestartV2ray")
 	beego.Router("/api/system/nginxReload", &controllers.SystemController{}, "get:NginxReload")
 	beego.Router("/api/system/restartV2ray", &controllers.SystemController{}, "get:RestartV2ray")
-	beego.Router("/api/system/regenConfig", &controllers.SystemController{}, "get:ReGenConfig")
+	beego.Router("/api/system/regenV2ayConfig", &controllers.SystemController{}, "get:ReGenConfig")
 	beego.Router("/api/system/getRawStats", &controllers.SystemController{}, "get:GetRawStats")
+	beego.Router("/api/system/genNginxConfig", &controllers.SystemController{}, "post:GenNginxConfig")
 }
