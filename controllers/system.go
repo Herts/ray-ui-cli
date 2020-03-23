@@ -5,6 +5,7 @@ import (
 	"../myutils"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"io/ioutil"
@@ -24,10 +25,10 @@ func (c *SystemController) RestartV2ray() {
 func (c *SystemController) ExecuteCmd(command ...string) {
 	cmd := exec.Command(command[0], command[1:]...)
 	logs.Info(cmd.String())
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		c.Data["json"] = response{
-			Message: err.Error(),
+			Message: fmt.Sprint(output, err.Error()),
 		}
 		c.ServeJSON()
 		return
