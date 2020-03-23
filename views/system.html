@@ -11,7 +11,7 @@
             <input id="serverName" name="serverName">
 
             <label for="port">Port</label>
-            <input id="port" type="number" name="port">
+            <input id="port" type="number" name="port" value="443" placeholder="443">
             <label for="mask">Mask</label>
             <input id="mask" name="mask">
 
@@ -38,7 +38,8 @@
         <button id="restartV2ray" type="button" class="pure-button pure-button-primary">Restart V2ray</button>
         <div id="restartV2rayResult"></div>
         <hr>
-
+        <button id="reloadNginx" type="button" class="pure-button pure-button-primary">Restart V2ray</button>
+        <div id="reloadNginxResult"></div>
     </div>
 </div>
 <script>
@@ -86,6 +87,21 @@
                         // you can see the result from the console
                         // tab of the developer tools
                         $('#restartV2rayResult').html(result.message);
+                    },
+                    error: function (xhr, resp, text) {
+                        console.log(xhr, resp, text);
+                    }
+                }
+            )
+        });
+        $("#reloadNginx").on('click', function () {
+            $.ajax({
+                    url: '/api/system/nginxReload', // url where to submit the request
+                    type: "GET", // type of action POST || GET
+                    success: function (result) {
+                        // you can see the result from the console
+                        // tab of the developer tools
+                        $('#reloadNginxResult').html(result.message);
                     },
                     error: function (xhr, resp, text) {
                         console.log(xhr, resp, text);
