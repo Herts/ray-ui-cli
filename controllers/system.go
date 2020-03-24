@@ -34,7 +34,7 @@ func (c *SystemController) ExecuteCmd(command ...string) {
 		return
 	}
 	c.Data["json"] = response{
-		Message: fmt.Sprintf("No error occurred. %b", output),
+		Message: fmt.Sprintf("No error occurred. %s", output),
 	}
 	c.ServeJSON()
 }

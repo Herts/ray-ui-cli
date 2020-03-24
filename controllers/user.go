@@ -43,7 +43,7 @@ func (c *UserController) CreateUser() {
 	}
 
 	models.AddUser(&newUser)
-	c.Data["json"] = response{Message: "User creation success"}
+	c.Data["json"] = response{Message: fmt.Sprintf("User %s creation success", newUser.Email)}
 	c.ServeJSON()
 }
 
