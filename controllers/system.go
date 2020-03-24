@@ -19,7 +19,7 @@ type SystemController struct {
 
 func (c *SystemController) RestartV2ray() {
 	models.UpdateDataConsumed()
-	c.ExecuteCmd("sudo", "systemctl", "restart", "v2ray")
+	c.ExecuteCmd("systemctl", "restart", "v2ray")
 }
 
 func (c *SystemController) ExecuteCmd(command ...string) {
@@ -34,7 +34,7 @@ func (c *SystemController) ExecuteCmd(command ...string) {
 		return
 	}
 	c.Data["json"] = response{
-		Message: string(output),
+		Message: fmt.Sprintf("No error occurred. %b", output),
 	}
 	c.ServeJSON()
 }

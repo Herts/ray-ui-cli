@@ -118,12 +118,14 @@ func UpdateDataConsumed() (emails []string) {
 		logs.Error(err)
 		return
 	}
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+
 	for _, stat := range stats {
 		if strings.HasPrefix(stat.Name, "user") {
 			info := strings.Split(stat.Name, ">>>")
 			email := info[1]
 			emails = append(emails, email)
-			ud := GetUserDataOneDay(email, time.Now().Format("2006-01-02"))
+			ud := GetUserDataOneDay(email, time.Now().In(loc).Format("2006-01-02"))
 			if strings.HasSuffix(stat.Name, "uplink") {
 				ud.UpDataConsumed += stat.Value
 			} else {
