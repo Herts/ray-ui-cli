@@ -22,6 +22,7 @@ func init() {
 	beego.Router("/api/user/updateData", &controllers.UserController{}, "get:UpdateDataConsumed")
 
 	beego.Router("/html/userdata", &controllers.UserController{}, "get:GetUserDataPage")
+	beego.Router("html/users", &controllers.UserController{}, "get:GetUserPage")
 	beego.Router("/html/system", &controllers.SystemController{}, "get:GetSystemPage")
 
 	beego.Router("/api/system/restartV2ray", &controllers.SystemController{}, "get:RestartV2ray")

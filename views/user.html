@@ -1,0 +1,90 @@
+<div id="main">
+    <div class="header">
+        <h1>Users</h1>
+        <h2>Manage Users</h2>
+    </div>
+    <div class="content">
+        <div>
+            <table class="pure-table pure-table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        User Id
+                    </th>
+                    <th>
+                        Enabled
+                    </th>
+                    <th>
+                        Data (MB)
+                    </th>
+                    <th>
+                        Level
+                    </th>
+                    <th>
+                        AlterID
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {{range $d := .data}}
+                    <tr>
+                        <td>{{.Email}}</td>
+                        <td>{{.UserId}}</td>
+                        <td>{{.Enabled}}</td>
+                        <td>{{.DataConsumed}}</td>
+                        <td>{{.Level}}</td>
+                        <td>{{.AlterID}}</td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <form id="userAddForm" class="pure-form pure-form-stacked">
+
+            <label for="email">Email</label>
+            <input id="email" name="email">
+
+            <label for="userId">User Id</label>
+            <input id="userId" name="userId" placeholder="UUID">
+
+            <label for="level">Level</label>
+            <input id="level" name="level" value="0">
+
+            <label for="alterId">Alter Id</label>
+            <input id="alterId" name="alterId" value="16">
+
+            <button id="userAddSubmit" type="button" class="pure-button pure-button-primary">Add User</button>
+        </form>
+        <div id="userAddResult" style="white-space: pre-line"></div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // click on button submit
+        $("#userAddSubmit").on('click', function () {
+            // send ajax
+            $.ajax({
+                url: '/api/user/add', // url where to submit the request
+                type: "POST", // type of action POST || GET
+                dataType: 'json', // data type
+                data: $("#userAddForm").serializeJSON(), // post data || get data
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#userAddResult').html(result.message);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        })
+    });
+
+</script>

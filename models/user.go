@@ -13,12 +13,12 @@ var db *gorm.DB
 
 type User struct {
 	gorm.Model   `json:"-"`
-	Email        string  `gorm:"primary_key" json:"email"`
-	UserId       string  `json:"userId"`
-	Enabled      bool    `json:"enabled"`
-	DataConsumed float64 `json:"dataConsumed"`
-	Level        int     `json:"level"`
-	AlterID      int     `json:"alterId"`
+	Email        string `gorm:"primary_key" json:"email"`
+	UserId       string `json:"userId"`
+	Enabled      bool   `json:"enabled"`
+	DataConsumed int64  `json:"dataConsumed"`
+	Level        int    `json:"level,string"`
+	AlterID      int    `json:"alterId,string"`
 }
 
 type RemoteServer struct {
@@ -140,4 +140,18 @@ func UpdateDataConsumed() (emails []string) {
 func GetAllDataConsumed() (uds []*UserData) {
 	db.Find(&uds)
 	return
+}
+
+func UpdateDataConsumedInUser() {
+	users := GetAllUser()
+	type result struct {
+		Up   int64
+		Down int64
+	}
+	var r result
+	for _, u := range users {
+		db.Model(&UserData{}).Select("sum(up_data_consumed) as up, sum(down_data_consumed) as down").Scan(&r)
+		u.DataConsumed = r.Up + r.Down
+		db.Save(u)
+	}
 }

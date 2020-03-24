@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
+	"strings"
 )
 
 type UserController struct {
@@ -25,7 +26,7 @@ func (c *UserController) CreateUser() {
 		c.ServeJSON()
 		return
 	}
-
+	newUser.Email = strings.ReplaceAll(newUser.Email, " ", "")
 	u := models.GetUser(newUser.Email)
 	if u.Email == newUser.Email {
 		c.Data["json"] = response{Message: fmt.Sprintf("User email %s exists", newUser.Email)}
@@ -98,8 +99,10 @@ func (c *UserController) UpdateDataConsumed() {
 	c.Data["json"] = response{Message: "success", Data: emails}
 	c.ServeJSON()
 }
+
 func (c *UserController) GetUserDataPage() {
 	data := models.GetAllDataConsumed()
+	// TODO: the form to display data should be changed
 	for _, d := range data {
 		d.UpDataConsumed /= 10e6
 		d.DownDataConsumed /= 10e6
@@ -107,4 +110,12 @@ func (c *UserController) GetUserDataPage() {
 	c.Data["data"] = data
 	c.Layout = "layout.html"
 	c.TplName = "userdata.html"
+}
+
+func (c *UserController) GetUserPage() {
+	//models.UpdateDataConsumedInUser()
+	users := models.GetAllUser()
+	c.Data["data"] = users
+	c.Layout = "layout.html"
+	c.TplName = "user.html"
 }
