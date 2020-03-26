@@ -34,5 +34,44 @@
             {{end}}
             </tbody>
         </table>
+        <hr>
+        <button id="updateData" type="button" class="pure-button pure-button-primary">Update Data Immediately</button>
+        <div id="updateDataResult"></div>
+        <hr>
+        <button id="getRawStats" type="button" class="pure-button pure-button-primary">Get Raw Statistics</button>
+        <div id="getRawStatsResult"></div>
     </div>
 </div>
+
+<script>
+    $("#updateData").on('click', function () {
+        $.ajax({
+                url: '/api/user/updateData', // url where to submit the request
+                type: "GET", // type of action POST || GET
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#updateDataResult').html(result.message);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            }
+        )
+    });
+    $("#getRawStats").on('click', function () {
+        $.ajax({
+                url: '/api/system/getRawStats', // url where to submit the request
+                type: "GET", // type of action POST || GET
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#getRawStatsResult').html(result.message);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            }
+        )
+    });
+</script>
