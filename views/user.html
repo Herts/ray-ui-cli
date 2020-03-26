@@ -96,9 +96,9 @@
     });
     $("#regenV2rayConfig").on('click', function () {
         $.ajax({
-                url: '/api/system/restartV2ray', // url where to submit the request
-                type: "GET", // type of action POST || GET
-                success: function (result) {
+            url: '/api/system/regenV2rayConfig', // url where to submit the request
+            type: "GET", // type of action POST || GET
+            success: function (result) {
                     // you can see the result from the console
                     // tab of the developer tools
                     $('#regenV2rayConfigResult').html(result.message);
