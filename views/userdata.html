@@ -36,10 +36,10 @@
         </table>
         <hr>
         <button id="updateData" type="button" class="pure-button pure-button-primary">Update Data Immediately</button>
-        <div id="updateDataResult"></div>
+        <div id="updateDataResult" style="white-space: pre-line"></div>
         <hr>
         <button id="getRawStats" type="button" class="pure-button pure-button-primary">Get Raw Statistics</button>
-        <div id="getRawStatsResult"></div>
+        <div id="getRawStatsResult" style="white-space: pre-line"></div>
     </div>
 </div>
 
@@ -51,9 +51,9 @@
                 success: function (result) {
                     // you can see the result from the console
                     // tab of the developer tools
-                    $('#updateDataResult').html(result.message + JSON.stringify(result.data, null, "\t"));
+                    $('#updateDataResult').html(result.message + "\n" + JSON.stringify(result.data, null, "\t"));
                 },
-            error: function (xhr, resp, text) {
+                error: function (xhr, resp, text) {
                     console.log(xhr, resp, text);
                 }
             }
@@ -66,9 +66,9 @@
                 success: function (result) {
                     // you can see the result from the console
                     // tab of the developer tools
-                    $('#getRawStatsResult').html(result.message + JSON.stringify(result.data, null, "\t"));
+                    $('#getRawStatsResult').html(result.message + "\n" + JSON.stringify(result.data, null, "\t"));
                 },
-            error: function (xhr, resp, text) {
+                error: function (xhr, resp, text) {
                     console.log(xhr, resp, text);
                 }
             }
