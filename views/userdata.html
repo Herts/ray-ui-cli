@@ -51,9 +51,9 @@
                 success: function (result) {
                     // you can see the result from the console
                     // tab of the developer tools
-                    $('#updateDataResult').html(result.message);
+                    $('#updateDataResult').html(result.message + result.data);
                 },
-                error: function (xhr, resp, text) {
+            error: function (xhr, resp, text) {
                     console.log(xhr, resp, text);
                 }
             }
@@ -66,9 +66,9 @@
                 success: function (result) {
                     // you can see the result from the console
                     // tab of the developer tools
-                    $('#getRawStatsResult').html(result.message);
+                    $('#getRawStatsResult').html(result.message + result.data);
                 },
-                error: function (xhr, resp, text) {
+            error: function (xhr, resp, text) {
                     console.log(xhr, resp, text);
                 }
             }

@@ -99,11 +99,11 @@
             url: '/api/system/regenV2rayConfig', // url where to submit the request
             type: "GET", // type of action POST || GET
             success: function (result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
-                    $('#regenV2rayConfigResult').html(result.message);
-                },
-                error: function (xhr, resp, text) {
+                // you can see the result from the console
+                // tab of the developer tools
+                $('#regenV2rayConfigResult').html(result.message + result.data);
+            },
+            error: function (xhr, resp, text) {
                     console.log(xhr, resp, text);
                 }
             }
