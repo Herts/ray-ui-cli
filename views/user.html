@@ -62,6 +62,14 @@
         </form>
         <div id="userAddResult" style="white-space: pre-line"></div>
 
+        <hr>
+        <button id="regenV2rayConfig" type="button" class="pure-button pure-button-primary">Re-generate V2ray Config
+        </button>
+        <div id="regenV2rayConfigResult"></div>
+
+        <hr>
+        <button id="restartV2ray" type="button" class="pure-button pure-button-primary">Restart V2ray</button>
+        <div id="restartV2rayResult"></div>
     </div>
 </div>
 
@@ -85,6 +93,36 @@
                 }
             })
         })
+    });
+    $("#regenV2rayConfig").on('click', function () {
+        $.ajax({
+                url: '/api/system/restartV2ray', // url where to submit the request
+                type: "GET", // type of action POST || GET
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#regenV2rayConfigResult').html(result.message);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            }
+        )
+    });
+    $("#restartV2ray").on('click', function () {
+        $.ajax({
+                url: '/api/system/restartV2ray', // url where to submit the request
+                type: "GET", // type of action POST || GET
+                success: function (result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    $('#restartV2rayResult').html(result.message);
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            }
+        )
     });
 
 </script>
