@@ -34,11 +34,16 @@ func init() {
 }
 
 func InitFilter() beego.FilterFunc {
+	auth := beego.AppConfig.String("Authorization")
 	return func(ctx *context.Context) {
 		if strings.HasPrefix(ctx.Input.URL(), "/html/login") {
 			return
 		}
-
+		if len(auth) != 0 {
+			if ctx.Input.Header("Authorization") == auth {
+				return
+			}
+		}
 		_, ok := ctx.Input.Session("uid").(int)
 		if !ok {
 			ctx.Redirect(302, "/html/login")

@@ -22,7 +22,7 @@ func (c *UserController) CreateUser() {
 
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &newUser)
 	if err != nil {
-		c.Data["json"] = response{Message: err.Error()}
+		c.Data["json"] = response{Message: "json.Unmarshal" + err.Error()}
 		c.ServeJSON()
 		return
 	}
