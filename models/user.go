@@ -1,7 +1,7 @@
 package models
 
 import (
-	"../myutils"
+	"github.com/Herts/ray-ui-cli/myutils"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/jinzhu/gorm"
@@ -139,6 +139,21 @@ func UpdateDataConsumed() (emails []string) {
 
 func GetAllDataConsumed() (uds []*UserData) {
 	db.Find(&uds)
+	return
+}
+
+func GetAllDataConsumedInRange(startDate, endDate *time.Time) (uds []*UserData) {
+	var query *gorm.DB
+	if startDate != nil {
+		start := startDate.Format("2006-01-02")
+		query = db.Where("DATE(date) >= ?", start)
+	}
+	if endDate != nil {
+		end := endDate.Format("2006-01-02")
+		query = db.Where("DATE(date) <= ?", end)
+
+	}
+	query.Find(&uds)
 	return
 }
 

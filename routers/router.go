@@ -1,13 +1,22 @@
+// @APIVersion 1.0.0
+// @Title ray-ui-cli API
 package routers
 
 import (
-	"../controllers"
+	"github.com/Herts/ray-ui-cli/controllers"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"strings"
 )
 
 func init() {
+	ns := beego.NewNamespace("/api",
+		beego.NSNamespace("/user",
+			beego.NSInclude(&controllers.UserApiController{}),
+		),
+	)
+	beego.AddNamespace(ns)
+
 	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
 	beego.InsertFilter("/*", beego.BeforeRouter, InitFilter())
@@ -15,11 +24,11 @@ func init() {
 	beego.Router("/html/login", &controllers.MainController{}, "get:LoginPage")
 	beego.Router("/html/login", &controllers.MainController{}, "post:Login")
 
-	beego.Router("/api/user/add", &controllers.UserController{}, "post:CreateUser")
-	beego.Router("/api/user/update", &controllers.UserController{}, "put:UpdateUser")
-	beego.Router("/api/user/list", &controllers.UserController{}, "get:ListAllUsers")
-	beego.Router("/api/user/listData", &controllers.UserController{}, "get:ListAllDataConsumed")
-	beego.Router("/api/user/updateData", &controllers.UserController{}, "get:UpdateDataConsumed")
+	//beego.Router("/api/user/add", &controllers.UserController{}, "post:CreateUser")
+	//beego.Router("/api/user/update", &controllers.UserController{}, "put:UpdateUser")
+	//beego.Router("/api/user/list", &controllers.UserController{}, "get:ListAllUsers")
+	//beego.Router("/api/user/listData", &controllers.UserController{}, "get:ListAllDataConsumed")
+	//beego.Router("/api/user/updateData", &controllers.UserController{}, "get:UpdateDataConsumed")
 
 	beego.Router("/html/userdata", &controllers.UserController{}, "get:GetUserDataPage")
 	beego.Router("html/users", &controllers.UserController{}, "get:GetUserPage")

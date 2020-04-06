@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"../models"
-	"../myutils"
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/Herts/ray-ui-cli/models"
+	"github.com/Herts/ray-ui-cli/myutils"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"io/ioutil"
