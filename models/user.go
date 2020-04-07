@@ -143,7 +143,7 @@ func GetAllDataConsumed() (uds []*UserData) {
 }
 
 func GetAllDataConsumedInRange(startDate, endDate *time.Time) (uds []*UserData) {
-	var query *gorm.DB
+	query := db
 	if startDate != nil {
 		start := startDate.Format("2006-01-02")
 		query = db.Where("DATE(date) >= ?", start)
@@ -151,7 +151,6 @@ func GetAllDataConsumedInRange(startDate, endDate *time.Time) (uds []*UserData) 
 	if endDate != nil {
 		end := endDate.Format("2006-01-02")
 		query = db.Where("DATE(date) <= ?", end)
-
 	}
 	query.Find(&uds)
 	return
