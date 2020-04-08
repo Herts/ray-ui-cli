@@ -30,7 +30,7 @@ func init() {
 	beego.Router("/html/login", &controllers.MainController{}, "post:Login")
 
 	beego.Router("/html/userdata", &controllers.UserController{}, "get:GetUserDataPage")
-	beego.Router("html/users", &controllers.UserController{}, "get:GetUserPage")
+	beego.Router("/html/users", &controllers.UserController{}, "get:GetUserPage")
 	beego.Router("/html/system", &controllers.SystemController{}, "get:GetSystemPage")
 }
 
