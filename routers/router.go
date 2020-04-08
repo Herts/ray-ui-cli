@@ -1,5 +1,7 @@
 // @APIVersion 1.0.0
 // @Title ray-ui-cli API
+// @Security ApiKeyAuth
+// @SecurityDefinition ApiKeyAuth apiKey Authorization header "Authorization token set in conf/admin.conf"
 package routers
 
 import (
@@ -14,6 +16,9 @@ func init() {
 		beego.NSNamespace("/user",
 			beego.NSInclude(&controllers.UserApiController{}),
 		),
+		beego.NSNamespace("/system",
+			beego.NSInclude(&controllers.SystemApiController{}),
+		),
 	)
 	beego.AddNamespace(ns)
 
@@ -24,22 +29,9 @@ func init() {
 	beego.Router("/html/login", &controllers.MainController{}, "get:LoginPage")
 	beego.Router("/html/login", &controllers.MainController{}, "post:Login")
 
-	//beego.Router("/api/user/add", &controllers.UserController{}, "post:CreateUser")
-	//beego.Router("/api/user/update", &controllers.UserController{}, "put:UpdateUser")
-	//beego.Router("/api/user/list", &controllers.UserController{}, "get:ListAllUsers")
-	//beego.Router("/api/user/listData", &controllers.UserController{}, "get:ListAllDataConsumed")
-	//beego.Router("/api/user/updateData", &controllers.UserController{}, "get:UpdateDataConsumed")
-
 	beego.Router("/html/userdata", &controllers.UserController{}, "get:GetUserDataPage")
 	beego.Router("html/users", &controllers.UserController{}, "get:GetUserPage")
 	beego.Router("/html/system", &controllers.SystemController{}, "get:GetSystemPage")
-
-	beego.Router("/api/system/restartV2ray", &controllers.SystemController{}, "get:RestartV2ray")
-	beego.Router("/api/system/nginxReload", &controllers.SystemController{}, "get:NginxReload")
-	beego.Router("/api/system/regenV2rayConfig", &controllers.SystemController{}, "get:ReGenConfig")
-	beego.Router("/api/system/certbotGetCert", &controllers.SystemController{}, "post:CertbotGetCert")
-	beego.Router("/api/system/getRawStats", &controllers.SystemController{}, "get:GetRawStats")
-	beego.Router("/api/system/genNginxConfig", &controllers.SystemController{}, "post:GenNginxConfig")
 }
 
 func InitFilter() beego.FilterFunc {

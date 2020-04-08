@@ -16,7 +16,7 @@ type DataConsumed struct {
 func GetStatistics(reset bool) (data []*DataConsumed, err error) {
 	_v2ctl := "/usr/bin/v2ray/v2ctl"
 	cmd := exec.Command(_v2ctl, "api", "--server", "127.0.0.1:8144", "StatsService.QueryStats", fmt.Sprintf("pattern: \"\" reset: %t", reset))
-	logs.Info(cmd.String())
+	logs.Debug(cmd.String())
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		logs.Error(err, string(output))

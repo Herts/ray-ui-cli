@@ -25,7 +25,8 @@ func (c *UserApiController) ListAllDataConsumed(startDate, endDate *time.Time) {
 	c.ServeJSON()
 }
 
-// Param body body models.User true "user"
+// @Param body body models.User true "user"
+// @Success 200 {response} response
 // @router /add [post]
 func (c *UserApiController) CreateUser() {
 	var newUser models.User
@@ -57,7 +58,8 @@ func (c *UserApiController) CreateUser() {
 	c.ServeJSON()
 }
 
-// Param body body models.User true "user"
+// @Param body body models.User true "user"
+// @Success 200 {response} response
 // @router /update [put]
 func (c *UserApiController) UpdateUser() {
 	var user models.User
@@ -95,6 +97,7 @@ func (c *UserApiController) DeleteUser() {
 
 }
 
+// @Success 200 {response} response
 // @router /list [get]
 func (c *UserApiController) ListAllUsers() {
 	users := models.GetAllUser()
